@@ -21,36 +21,36 @@
       String sql = "select * from members";
       
       try{
-     	 Class.forName(driverName);// 드라이버 로딩
-     	 conn = DriverManager.getConnection(url, username, password);
-     	 //데이터베이스 연동
-     	 stmt = conn.createStatement();//sql을 실행해주는 statement 객체 생성
+         Class.forName(driverName);// 드라이버 로딩
+         conn = DriverManager.getConnection(url, username, password);
+         //데이터베이스 연동
+         stmt = conn.createStatement();//sql을 실행해주는 statement 객체 생성
          
-     	 rs = stmt.executeQuery(sql);
-     	 int count=1;
-     	 while(rs.next()) {
-     		String mid = rs.getString("id");
-     		String mpw = rs.getString("passwd");
-     		String memail = rs.getString("email");
-     		String mdate = rs.getString("signuptime");
-     		
-     		out.println("아이디: " +mid+"/ 비밀번호:"+mpw+"/이메일:"+memail+"/가입일:"+mdate);
-     		out.println("<br>");
-     		
-     		count++;
-     	 }
-     	 out.println("총 회원수:"+count+"명");
-     
+         rs = stmt.executeQuery(sql);
+         int count = 1;
+         
+         while(rs.next()){
+            String mid = rs.getString("id");
+            String mpw = rs.getString("passwd");
+            String memail = rs.getString("email");
+            String mdate = rs.getString("signuptime");
+         
+            out.println("[" + count + "]" + "아이디 : " + mid + " / 비밀번호 : " + mpw + " / 이메일 : " + memail + " / 가입일 : " + mdate + "<br>");
+            
+            count++;
+         }
+         out.println("총 회원수 : " + count + "명");
       } catch(Exception e){
          e.printStackTrace();
       } finally{
          try{
-        	if(rs != null){
-        		rs.close();
-        	}
+            if(rs != null){
+               rs.close();
+            }
             if(stmt != null){
                stmt.close();
-            }if(conn != null){
+            }
+            if(conn != null){
                conn.close();
             }
          }catch(Exception e){
@@ -58,6 +58,13 @@
          }   
       }
       %>
-  
+      
+      <br><br>
+      <hr>
+      <form action="deleteOk.jsp">
+         아이디 : <input type="text" name="userId">
+         <input type="submit" value="회원탈퇴">
+      
+      </form>
 </body>
 </html>
